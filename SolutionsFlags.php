@@ -11,7 +11,9 @@ class SolutionsFlags
     public function solution(array $heights): void
     {
         $pics = $this->getPics($heights);
-//        $pics = $this->findPicsForFlag($pics);
+        $pics = $this->setLengths($pics);
+
+        $pics = $this->findPicsForFlag($pics);
 
         print_r($pics);
     }
@@ -53,6 +55,17 @@ class SolutionsFlags
     private function findPicsForFlag(array $pics)
     {
 
+    }
+
+    private function setLengths(array $pics)
+    {
+        $prevIndex = 0;
+        foreach ($pics as $index=>$pic){
+            $pics[$index] = $index-$prevIndex;
+            $prevIndex = $index;
+        }
+
+        return $pics;
     }
 }
 
