@@ -12,6 +12,7 @@ class SolutionsFlags
     {
         $pics = $this->getPics($heights);
         $pics = $this->setLengths($pics);
+        print_r($pics);
 
         $pics = $this->findPicsForFlag($pics);
 
@@ -24,7 +25,7 @@ class SolutionsFlags
      */
     private function getPics(array $heights): array
     {
-        $lastIndexPic = count($heights)-1;
+        $lastIndexPic = count($heights) - 1;
         $pics = [
             0 => true,
             $lastIndexPic => true
@@ -32,7 +33,7 @@ class SolutionsFlags
 
         for ($indexPoint = 1; $indexPoint <= $lastIndexPic; $indexPoint++) {
             if (true === $this->isPic($heights, $indexPoint)) {
-                unset($pics[$indexPoint-1], $pics[$indexPoint+1]);
+                unset($pics[$indexPoint - 1], $pics[$indexPoint + 1]);
 
                 $pics[$indexPoint] = $this->canSetFlag();
             }
@@ -44,7 +45,7 @@ class SolutionsFlags
     private function isPic($heights, $indexPoint): bool
     {
         return $heights[$indexPoint - 1] < $heights[$indexPoint] &&
-        $heights[$indexPoint] > $heights[$indexPoint + 1];
+            $heights[$indexPoint] > $heights[$indexPoint + 1];
     }
 
     private function canSetFlag(): bool
@@ -52,16 +53,32 @@ class SolutionsFlags
         return false;
     }
 
-    private function findPicsForFlag(array $pics)
+    private function findPicsForFlag(array $pics): array
     {
+        $countPics = count($pics);
 
+        for ($countFlags = $countPics; $countFlags >= 1; $countFlags--) {
+            $picsForFlags = [];
+
+            foreach ($pics as $indexPic => $length) {
+                if ($length <= $countFlags) {
+                    $picsForFlags[$indexPic] = true;
+                }
+            }
+
+            if (count($picsForFlags) == $countFlags) {
+                break;
+            }
+        }
+
+        return $picsForFlags;
     }
 
     private function setLengths(array $pics)
     {
         $prevIndex = 0;
-        foreach ($pics as $index=>$pic){
-            $pics[$index] = $index-$prevIndex;
+        foreach ($pics as $index => $pic) {
+            $pics[$index] = $index - $prevIndex;
             $prevIndex = $index;
         }
 
