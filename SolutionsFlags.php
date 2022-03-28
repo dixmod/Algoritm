@@ -11,9 +11,9 @@ class SolutionsFlags
     public function solution(array $heights): void
     {
         $pics = $this->getPics($heights);
-        $pics = $this->setLengths($pics);
+        $lengths = $this->getLengths($pics);
 
-        $pics = $this->findPicsForFlag($pics);
+        $pics = $this->findPicsForFlag($pics, $lengths);
 
         print_r($pics);
     }
@@ -24,7 +24,7 @@ class SolutionsFlags
      */
     private function getPics(array $heights): array
     {
-        $lastIndexPic = count($heights)-1;
+        $lastIndexPic = count($heights) - 1;
         $pics = [
             0 => true,
             $lastIndexPic => true
@@ -32,19 +32,19 @@ class SolutionsFlags
 
         for ($indexPoint = 1; $indexPoint <= $lastIndexPic; $indexPoint++) {
             if (true === $this->isPic($heights, $indexPoint)) {
-                unset($pics[$indexPoint-1], $pics[$indexPoint+1]);
+                unset($pics[$indexPoint - 1], $pics[$indexPoint + 1]);
 
                 $pics[$indexPoint] = $this->canSetFlag();
             }
         }
 
-        return $pics;
+        return array_keys($pics);
     }
 
     private function isPic($heights, $indexPoint): bool
     {
         return $heights[$indexPoint - 1] < $heights[$indexPoint] &&
-        $heights[$indexPoint] > $heights[$indexPoint + 1];
+            $heights[$indexPoint] > $heights[$indexPoint + 1];
     }
 
     private function canSetFlag(): bool
@@ -52,20 +52,42 @@ class SolutionsFlags
         return false;
     }
 
-    private function findPicsForFlag(array $pics)
+    private function findPicsForFlag(array $pics, array $lengths): array
     {
+        $countPics = count($lengths);
 
-    }
+        for ($countFlags = $countPics; $countFlags > 1; $countFlags--) {
+            $picsForFlags = [];
 
-    private function setLengths(array $pics)
-    {
-        $prevIndex = 0;
-        foreach ($pics as $index=>$pic){
-            $pics[$index] = $index-$prevIndex;
-            $prevIndex = $index;
+            foreach ($lengths as $indexPic => $length) {
+                if (
+                    $length['prev'] <= $countFlags &&
+                    $length['next'] <= $countFlags
+                ) {
+                    $picsForFlags[$indexPic] = true;
+                }
+            }
+
+            if (count($picsForFlags) == $countFlags) {
+                break;
+            }
         }
 
-        return $pics;
+        return $picsForFlags;
+    }
+
+    private function getLengths(array $pics): array
+    {
+        $lengths = [];
+
+        foreach ($pics as $index=>$pic) {
+            $lengths[$pic] = [
+                'prev' => abs(($pics[$index-1] ?? 0) - $pic),
+                'next' => abs(($pics[$index+1] ?? 0) - $pic),
+            ];
+        }
+
+        return $lengths;
     }
 }
 
