@@ -13,9 +13,9 @@ class SolutionsFlags
         $pics = $this->getPics($heights);
         $lengths = $this->getLengths($pics);
 
-        $pics = $this->findPicsForFlag($pics, $lengths);
+        $picsForFlag = $this->findPicsForFlag($lengths);
 
-        print_r($pics);
+        print_r($picsForFlag);
     }
 
     /**
@@ -34,7 +34,7 @@ class SolutionsFlags
             if (true === $this->isPic($heights, $indexPoint)) {
                 unset($pics[$indexPoint - 1], $pics[$indexPoint + 1]);
 
-                $pics[$indexPoint] = $this->canSetFlag();
+                $pics[$indexPoint] = true;
             }
         }
 
@@ -47,28 +47,23 @@ class SolutionsFlags
             $heights[$indexPoint] > $heights[$indexPoint + 1];
     }
 
-    private function canSetFlag(): bool
-    {
-        return false;
-    }
-
-    private function findPicsForFlag(array $pics, array $lengths): array
+    private function findPicsForFlag(array $lengths): array
     {
         $countPics = count($lengths);
-
+//print_r($lengths);
         for ($countFlags = $countPics; $countFlags > 1; $countFlags--) {
             $picsForFlags = [];
 
             foreach ($lengths as $indexPic => $length) {
                 if (
-                    $length['prev'] <= $countFlags &&
-                    $length['next'] <= $countFlags
+                    $length['prev'] >= $countFlags &&
+                    $length['next'] >= $countFlags
                 ) {
                     $picsForFlags[$indexPic] = true;
                 }
             }
 
-            if (count($picsForFlags) == $countFlags) {
+            if (count($picsForFlags) === $countFlags) {
                 break;
             }
         }
