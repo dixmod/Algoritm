@@ -2,7 +2,12 @@
 
 class SolutionsFlags
 {
-    public const A = [1, 5, 3, 4, 3, 4, 1, 2, 3, 4, 6, 2];
+    public const A = [
+        1, 5, 3, 4, 3, 4, 1, 2, 3, 4, 6, 2,
+//        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 3, 4, 3, 4, 1, 2, 3, 4, 6, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
+//        1, 2, 1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1
+//        1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1
+    ];
 
     /**
      * @param string[] $heights
@@ -12,10 +17,11 @@ class SolutionsFlags
     {
         $pics = $this->getPics($heights);
         $lengths = $this->getLengths($pics);
+        print_r($pics);
 
         $picsForFlag = $this->findPicsForFlag($lengths);
 
-        print_r($picsForFlag);
+//        print_r($picsForFlag);
     }
 
     /**
@@ -50,17 +56,24 @@ class SolutionsFlags
     private function findPicsForFlag(array $lengths): array
     {
         $countPics = count($lengths);
-//print_r($lengths);
+
         for ($countFlags = $countPics; $countFlags > 1; $countFlags--) {
             $picsForFlags = [];
 
             foreach ($lengths as $indexPic => $length) {
-                if (
-                    $length['prev'] >= $countFlags &&
-                    $length['next'] >= $countFlags
-                ) {
+                if (count($picsForFlags) == 0){
                     $picsForFlags[$indexPic] = true;
+
+                    continue;
                 }
+
+
+//                if (
+//                    $length['prev'] >= $countFlags &&
+//                    $length['next'] >= $countFlags
+//                ) {
+//                    $picsForFlags[$indexPic] = true;
+//                }
             }
 
             if (count($picsForFlags) === $countFlags) {
@@ -75,10 +88,10 @@ class SolutionsFlags
     {
         $lengths = [];
 
-        foreach ($pics as $index=>$pic) {
+        foreach ($pics as $index => $pic) {
             $lengths[$pic] = [
-                'prev' => abs(($pics[$index-1] ?? 0) - $pic),
-                'next' => abs(($pics[$index+1] ?? 0) - $pic),
+                'prev' => abs(($pics[$index - 1] ?? 0) - $pic),
+                'next' => abs(($pics[$index + 1] ?? count(SolutionsFlags::A)) - $pic),
             ];
         }
 
