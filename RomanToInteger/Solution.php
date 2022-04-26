@@ -33,17 +33,15 @@ class Solution
     public function romanToInt(string $str): int
     {
         $num = 0;
-
         $str = str_split($str);
 
         for ($index = 0; $index <= count($str) - 1; $index++) {
             $char = $str[$index];
 
             $digit = $this->charToDigit($char);
+            $operation = $this->getOperation($char, $str[$index + 1] ?? null);
 
-            $oper = $this->getOperation($char, $str[$index + 1] ?? null);
-
-            $num += $oper * $digit;
+            $num += $operation * $digit;
         }
 
         return $num;
