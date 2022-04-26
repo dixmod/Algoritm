@@ -18,9 +18,9 @@ class TestSolution extends TestCase
     }
 
     /**
-     * @dataProvider dataGetValue
+     * @dataProvider dataRomanToInt
      */
-    public function testPushAndPop(string $request, int $expected)
+    public function testRomanToInt(string $request, int $expected)
     {
         $result = $this->service->romanToInt($request);
 
@@ -30,7 +30,7 @@ class TestSolution extends TestCase
     /**
      * @return Generator<array<string, mixed>>
      */
-    public function dataGetValue(): Generator
+    public function dataRomanToInt(): Generator
     {
         yield [
             'request' => 'III',
