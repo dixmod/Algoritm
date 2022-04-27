@@ -8,6 +8,9 @@ use App\RomanToInteger\Solution;
 use PHPUnit\Framework\TestCase;
 use Generator;
 
+/**
+ * @coversDefaultClass App\RomanToInteger\Solution
+ */
 class TestSolution extends TestCase
 {
     private Solution $service;

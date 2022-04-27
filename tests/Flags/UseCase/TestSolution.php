@@ -8,6 +8,9 @@ use App\Flags\Solution;
 use PHPUnit\Framework\TestCase;
 use Generator;
 
+/**
+ * @coversDefaultClass App\Flags\Solution
+ */
 class TestSolution extends TestCase
 {
     private Solution $service;
