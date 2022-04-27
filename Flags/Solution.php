@@ -1,27 +1,27 @@
 <?php
 
-class SolutionsFlags
+declare(strict_types=1);
+
+namespace App\Flags;
+
+class Solution
 {
-    public const A = [
-        1, 5, 3, 4, 3, 4, 1, 2, 3, 4, 6, 2,
-//        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 5, 3, 4, 3, 4, 1, 2, 3, 4, 6, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1
-//        1, 2, 1, 1, 1, 2, 1, 2, 1, 2, 1, 2, 1, 2, 1
-//        1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1, 1, 1, 1, 2, 1
-    ];
+    /**
+     * @var int[]
+     */
+    private array $pics;
 
     /**
-     * @param string[] $heights
-     *
+     * @param int[] $heights
      */
-    public function solution(array $heights): void
+    public function getMaxCountFlags(array $heights): int
     {
-        $pics = $this->getPics($heights);
-        $lengths = $this->getLengths($pics);
-        print_r($pics);
+        $this->pics = $this->getPics($heights);
+        $lengths = $this->getLengths($this->pics);
 
         $picsForFlag = $this->findPicsForFlag($lengths);
 
-//        print_r($picsForFlag);
+        return count($picsForFlag);
     }
 
     /**
@@ -61,7 +61,7 @@ class SolutionsFlags
             $picsForFlags = [];
 
             foreach ($lengths as $indexPic => $length) {
-                if (count($picsForFlags) == 0){
+                if (count($picsForFlags) == 0) {
                     $picsForFlags[$indexPic] = true;
 
                     continue;
@@ -87,16 +87,15 @@ class SolutionsFlags
     private function getLengths(array $pics): array
     {
         $lengths = [];
+        $countPics = count($this->pics);
 
         foreach ($pics as $index => $pic) {
             $lengths[$pic] = [
                 'prev' => abs(($pics[$index - 1] ?? 0) - $pic),
-                'next' => abs(($pics[$index + 1] ?? count(SolutionsFlags::A)) - $pic),
+                'next' => abs(($pics[$index + 1] ?? $countPics) - $pic),
             ];
         }
 
         return $lengths;
     }
 }
-
-(new SolutionsFlags())->solution(SolutionsFlags::A);
