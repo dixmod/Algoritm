@@ -51,6 +51,10 @@ class TestSolution extends TestCase
             'expected' => 10,
         ];
 
+        yield [
+            'request' => [[2, 8, 7], [7, 1, 3], [1, 9, 5]],
+            'expected' => 17,
+        ];
 
         yield [
             'request' => $this->getBigArray(),
