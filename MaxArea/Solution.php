@@ -16,9 +16,8 @@ class Solution
         $countHeights = count($heights);
 
         for ($index1 = 0; $index1 < $countHeights; $index1++) {
-            for ($index2 = $index1 + 1; $index2 < $countHeights; $index2++) {
-
-                $multiplication = $heights[$index2] * ($index2 - $index1 - 1);
+            for ($index2 = $index1; $index2 < $countHeights; $index2++) {
+                $multiplication = $heights[$index2] * abs($index2 - $index1 - 1);
 
                 if ($currentMultiplication < $multiplication) {
                     $currentMultiplication = $multiplication;

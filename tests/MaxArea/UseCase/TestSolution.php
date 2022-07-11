@@ -37,7 +37,11 @@ class TestSolution extends TestCase
     public function dataMaxArea(): Generator
     {
         yield [
-            'request' => [1,8,6,2,5,4,8,3,7],
+            'request' => [1, 1,],
+            'expected' => 1,
+        ];
+        yield [
+            'request' => [1, 8, 6, 2, 5, 4, 8, 3, 7,],
             'expected' => 49,
         ];
     }
