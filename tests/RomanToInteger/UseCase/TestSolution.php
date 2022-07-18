@@ -25,7 +25,7 @@ class TestSolution extends TestCase
      */
     public function testRomanToInt(string $request, int $expected)
     {
-        $result = $this->service->romanToInt($request);
+        $result = $this->service->intToRoman($request);
 
         self::assertEquals($expected, $result);
     }

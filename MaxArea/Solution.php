@@ -13,7 +13,7 @@ class Solution
     public function maxArea(array $heights): int
     {
         $currentMultiplication = 0;
-        $countHeights = count($heights);
+        $countHeights = sizeof($heights);
 
         for ($index1 = 0; $index1 < $countHeights; $index1++) {
             for ($index2 = $index1; $index2 < $countHeights; $index2++) {
