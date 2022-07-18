@@ -22,10 +22,6 @@ class Solution
         'I' => 1,
     ];
 
-    public function __construct()
-    {
-    }
-
     /**
      * @param integer $num
      * @return string
