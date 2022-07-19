@@ -33,10 +33,6 @@ class Solution
         foreach (self::MAP_DIGIT as $symbol => $digit) {
             $countDigit = intdiv($num, $digit);
 
-            if ($countDigit === 0) {
-                continue;
-            }
-
             $num -= $countDigit * $digit;
 
             $str .= str_repeat($symbol, $countDigit);
