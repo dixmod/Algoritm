@@ -23,67 +23,58 @@ class ListNodeFactory
      */
     public static function create(array $input): ListNode
     {
-        $prev = null;
+        $next = null;
 
         for ($i = count($input) - 1; $i >= 0; $i--) {
-            $node = new ListNode($input[$i], $prev);
-            $prev = $node;
+            $node = new ListNode($input[$i], $next);
+            $next = $node;
         }
 
-        return $prev;
+        return $next;
     }
 }
-
-//use App\AddTwoNumbers\ListNodeFactory;
 
 class Solution
 {
+    private static $isIncNext = 0;
+
+    private static function sum(?ListNode $node1, ?ListNode $node2, ?ListNode $next = null)
+    {
+        $val1 = $node1->val ?? 0;
+        $val2 = $node2->val ?? 0;
+
+        $sum = $val1 + $val2 + self::$isIncNext;
+
+        if ($sum >= 10) {
+            $sum -= 10;
+
+            self::$isIncNext = 1;
+        } else {
+            self::$isIncNext = 0;
+        }
+
+        $next = new ListNode($sum, $next);
+
+        if (null !== $node1->next || null !== $node2->next) {
+            $next->next = self::sum($node1->next, $node2->next, $next);
+
+            return $next;
+        }
+
+        if (self::$isIncNext > 0) {
+            $next->next = new ListNode(self::$isIncNext, null);
+            self::$isIncNext = 0;
+
+            return $next;
+        }
+
+        $next->next = null;
+
+        return $next;
+    }
+
     public function addTwoNumbers(ListNode $node1, ListNode $node2)
     {
-        $isIncNext = 0;
-        $prev = null;
-
-        while(
-            null !== $node1 && null !== $node2
-        ){
-            $r = $node1->val + $node2->val;
-            $r += $isIncNext;
-            $isIncNext = 0;
-
-            if($r>=10){
-                $r -= 10;
-                $isIncNext = 1;
-            }
-
-            $prev = new ListNode($r, $prev);
-
-            $node1 = $node1->next;
-            $node2 = $node2->next;
-        }
-
-        if(null !== $node1){
-            $prev->next = $node1;
-
-            return $prev;
-        }else if(null !== $node2){
-            $prev->next = $node2;
-
-            return $prev;
-        }
-
-        return $prev;
+        return $this->sum($node1, $node2);
     }
-}
-
-
-$prev = (new Solution())->addTwoNumbers(
-    ListNodeFactory::create([2,4,3]),
-    ListNodeFactory::create([5,6,4])
-//    ListNodeFactory::create([9,9,9,9,9,9,9]),
-//    ListNodeFactory::create([9,9,9,9])
-);
-
-while ($prev != null){
-    echo $prev->val;
-    $prev = $prev->next;
 }
