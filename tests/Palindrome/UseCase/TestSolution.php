@@ -66,7 +66,7 @@ class TestSolution extends TestCase
 
         yield [
             'request' => ListNodeFactory::create([1, 1, 2, 1]),
-            'expected' => true,
+            'expected' => false,
         ];
 
         yield [
