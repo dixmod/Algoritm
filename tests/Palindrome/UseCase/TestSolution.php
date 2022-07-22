@@ -54,6 +54,25 @@ class TestSolution extends TestCase
             'expected' => true,
         ];
 
+        yield [
+            'request' => ListNodeFactory::create([1, 2, 2, 1]),
+            'expected' => true,
+        ];
+
+        yield [
+            'request' => ListNodeFactory::create([1,2,1]),
+            'expected' => true,
+        ];
+
+        yield [
+            'request' => ListNodeFactory::create([1, 1, 2, 1]),
+            'expected' => true,
+        ];
+
+        yield [
+            'request' => ListNodeFactory::create([-1,2,1]),
+            'expected' => false,
+        ];
 
         yield [
             'request' => ListNodeFactory::create([1,]),

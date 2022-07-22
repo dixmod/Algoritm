@@ -20,7 +20,7 @@ class Solution
             $this->isPalindromeNode = $this->isPalindrome($node->next, $depth + 1);
         }
 
-        return $this->compare($node->val, $depth) && $this->isPalindromeNode;
+        return $this->compare($node->val, $depth)/* && $this->isPalindromeNode*/;
     }
 
     private function compare(int $fromStart, int $depth): bool

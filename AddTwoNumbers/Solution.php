@@ -40,7 +40,6 @@ class Solution
 {
     public function addTwoNumbers(ListNode $node1, ListNode $node2)
     {
-        $result = '';
         $isIncNext = 0;
         $prev = null;
 
@@ -78,10 +77,10 @@ class Solution
 
 
 $prev = (new Solution())->addTwoNumbers(
-//    ListNodeFactory::create([2,4,3,]),
-//    ListNodeFactory::create([5,6,4])
-    ListNodeFactory::create([9,9,9,9,9,9,9]),
-    ListNodeFactory::create([9,9,9,9])
+    ListNodeFactory::create([2,4,3]),
+    ListNodeFactory::create([5,6,4])
+//    ListNodeFactory::create([9,9,9,9,9,9,9]),
+//    ListNodeFactory::create([9,9,9,9])
 );
 
 while ($prev != null){
