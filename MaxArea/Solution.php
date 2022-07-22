@@ -10,21 +10,30 @@ class Solution
      * @param Integer[] $heights
      * @return Integer
      */
-    function maxArea($heights) {
+    function maxArea($heights)
+    {
         $maxArea = 0;
-        $countHeights = count($heights);
+        $index1 = 0;
+        $index2 = sizeof($heights) - 1;
 
-        for ($index1 = 0; $index1 < $countHeights; $index1++) {
-            for ($index2 = $index1 + 1; $index2 < $countHeights; $index2++) {
-                $area = ($index2 - $index1) * min($heights[$index1], $heights[$index2]);
+        while ($index1 < $index2) {
+            $width = $index2 - $index1;
 
-                if ($maxArea < $area) {
-                    $maxArea = $area;
-                }
+            if ($heights[$index1] < $heights[$index2]) {
+                $height = $heights[$index1];
+                ++$index1;
+            } else {
+                $height = $heights[$index2];
+                --$index2;
+            }
+
+            $area = $width * $height;
+
+            if ($maxArea < $area) {
+                $maxArea = $area;
             }
         }
 
         return $maxArea;
-
     }
 }
