@@ -20,14 +20,14 @@ class Solution
 
     public static function get(?TreeNode $root): void
     {
-        self::$out[] = $root->getVal();
+        self::$out[] = $root->val;
 
-        if (null !== $root->getLeft()) {
-            self::get($root->getLeft());
+        if (null !== $root->left) {
+            self::get($root->left);
         }
 
-        if (null !== $root->getRight()) {
-            self::get($root->getRight());
+        if (null !== $root->right) {
+            self::get($root->right);
         }
     }
 }

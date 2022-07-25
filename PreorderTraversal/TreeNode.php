@@ -6,9 +6,9 @@ namespace App\PreorderTraversal;
 
 class TreeNode
 {
-    private ?int $val = null;
-    private ?TreeNode $left = null;
-    private ?TreeNode $right = null;
+    public ?int $val = null;
+    public ?TreeNode $left = null;
+    public ?TreeNode $right = null;
 
     public function __construct(?int $value = null)
     {
