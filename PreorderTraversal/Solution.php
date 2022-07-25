@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace App\PreorderTraversal;
 
-use App\Tree\Getter;
-
 class Solution
 {
     static $out = [];
