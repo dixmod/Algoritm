@@ -6,8 +6,8 @@ namespace App\PreorderTraversal;
 
 require '../vendor/autoload.php';
 
-$root = Factory::create([1, null, 2, 3]);
-
+$root = Factory::create([]);
+//print_r($root); exit;
 var_dump(
     (new Solution())->preorderTraversal($root)
 ); // 2

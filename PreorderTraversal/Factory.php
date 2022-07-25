@@ -9,10 +9,14 @@ class Factory
     private static array $arr;
     private static int $len;
 
-    public static function create(array $arr): TreeNode
+    public static function create(array $arr): ?TreeNode
     {
         self::$arr = $arr;
-        self::$len = count($arr);
+        self::$len = sizeof($arr);
+
+        if(0 === self::$len){
+            return null;
+        }
 
         $treeNode = (new TreeNode(self::$arr[0]));
 

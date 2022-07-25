@@ -13,6 +13,8 @@ class Solution
      */
     function preorderTraversal(?TreeNode $root): array
     {
+        self::$out = [];
+
         self::get($root);
 
         return self::$out;
@@ -20,6 +22,10 @@ class Solution
 
     public static function get(?TreeNode $root): void
     {
+        if(null === $root){
+            return ;
+        }
+
         self::$out[] = $root->val;
 
         if (null !== $root->left) {
