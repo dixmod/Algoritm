@@ -26,7 +26,7 @@ class Solution
             return ;
         }
 
-        self::$out[] = $root->val;
+        self::$out[] = &$root->val;
 
         if (null !== $root->left) {
             self::get($root->left);
