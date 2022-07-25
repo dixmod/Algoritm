@@ -15,26 +15,11 @@ class TreeNode
         $this->val = $value;
     }
 
-    public function getVal(): ?int
-    {
-        return $this->val;
-    }
-
-    public function getLeft(): ?TreeNode
-    {
-        return $this->left;
-    }
-
     public function setLeft(?TreeNode $left): self
     {
         $this->left = $left;
 
         return $this;
-    }
-
-    public function getRight(): ?TreeNode
-    {
-        return $this->right;
     }
 
     public function setRight(?TreeNode $right): self
