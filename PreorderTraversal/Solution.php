@@ -11,7 +11,7 @@ class Solution
     /**
      * @return Integer[]
      */
-    function preorderTraversal(TreeNode $root): array
+    function preorderTraversal(?TreeNode $root): array
     {
         self::get($root);
 
