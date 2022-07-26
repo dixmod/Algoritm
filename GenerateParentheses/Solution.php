@@ -6,32 +6,32 @@ namespace App\GenerateParentheses;
 
 class Solution
 {
-    private $result = [];
+    private static array $result;
 
     /**
      * @return string[]
      */
     function generateParenthesis(int $n): array
     {
-        $this->generate($n);
+        static::$result = [];
 
-        return $this->result;
+        self::generate($n, '', 0, 0);
+
+        return static::$result;
     }
 
-    private function generate($n, string $current = '', $open = 0, $close = 0): void
+    static private function generate(int $n, string $current, int $open, int $close): void
     {
-        if ($n * 2 == strlen($current)) {
-            $this->result[] = $current;
-
-            return;
-        }
-
         if ($open < $n) {
-            $this->generate($n, $current . '(', $open + 1, $close);
+            self::generate($n, $current . '(', $open + 1, $close);
         }
 
         if ($close < $open) {
-            $this->generate($n, $current . ')', $open, $close + 1);
+            self::generate($n, $current . ')', $open, $close + 1);
+        }
+
+        if ($n * 2 == strlen($current)) {
+            self::$result[] = $current;
         }
     }
 }

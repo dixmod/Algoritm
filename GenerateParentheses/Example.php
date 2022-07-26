@@ -7,5 +7,5 @@ namespace App\GenerateParentheses;
 require 'vendor/autoload.php';
 
 print_r(
-    (new Solution())->generateParenthesis(2)
+    (new Solution())->generateParenthesis(3)
 );
