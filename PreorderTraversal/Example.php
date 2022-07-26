@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace App\PreorderTraversal;
 
-require '../vendor/autoload.php';
+require 'vendor/autoload.php';
 
-$root = Factory::create([1, null, 2, 3]);
+$root = Factory::create([3,1,2]);
 
-var_dump(
+print_r($root);
+print_r(
     (new Solution())->preorderTraversal($root)
 ); // 2

@@ -35,7 +35,7 @@ class Factory
     {
         $node = new TreeNode(self::$arr[$index]);
 
-        $key = $index + 1;
+        $key = $index * 2 + 1;
 
         if ($key < self::$len) {
             $node->setLeft(self::generate($key++));
