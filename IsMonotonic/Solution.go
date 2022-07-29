@@ -4,23 +4,25 @@ import (
 )
 
 func isMonotonic(nums []int) bool {
-	var dinamicOld int = 99999
-	var dinamic int
+    var isStart bool = true
+	var dynamicOld int
+	var dynamic int
 
 	for index := 0; index < len(nums)-1; index++ {
-		dinamic = nums[index + 1] - nums[index]
+		dynamic = nums[index + 1] - nums[index]
 
-		if(0 == dinamic){
+		if(0 == dynamic){
 			continue
 		}
 
-		dinamic = dinamic / abs(dinamic)
+		dynamic = dynamic / abs(dynamic)
 
-		if dinamic != dinamicOld && 99999 != dinamicOld {
+		if dynamic != dynamicOld && false == isStart {
 			return false
 		}
 
-		dinamicOld = dinamic
+		dynamicOld = dynamic
+        isStart = false
 	}
 
 	return true
