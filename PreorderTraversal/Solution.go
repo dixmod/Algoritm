@@ -1,9 +1,5 @@
 func preorderTraversal(root *TreeNode) []int {
-    out := []int{}
-
-    out = get(root, out);
-
-    return out;
+    return get(root, []int{});
 }
 
 func get(root *TreeNode, out []int) []int{
