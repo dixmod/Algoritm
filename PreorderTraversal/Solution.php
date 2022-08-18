@@ -27,6 +27,7 @@ class Solution
                 $root = $root->right;
             } else {
                 $root = array_pop($parent);
+
                 if (null !== $root->right) {
                     $parent[] = $root;
                 }

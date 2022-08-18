@@ -10,5 +10,5 @@ $root = Factory::create([3,1,2]);
 
 print_r($root);
 print_r(
-    (new Solution())->preorderTraversal($root)
+    (new Solution())->postorderTraversal($root)
 ); // 2

@@ -6,35 +6,41 @@ namespace App\PostorderTraversal;
 
 class Solution
 {
-    private static $out = [];
+    static $out = [];
 
     /**
      * @return Integer[]
      */
-    function preorderTraversal(?TreeNode $root): array
+    function postorderTraversal(?TreeNode $root): array
     {
-        self::$out = [];
+        $out = [];
+        $parent = [];
 
-        self::get($root);
+        while (null !== $root) {
+            $out[] = $root->val;
 
-        return self::$out;
-    }
+            if (null !== $root->left) {
+                $parent[] = $root;
+                $root = $root->left;
 
-    public static function get(?TreeNode $root): void
-    {
-        if(null === $root){
-            return ;
+                continue;
+            }
+
+            if (null !== $root->right) {
+                $parent[] = $root;
+                $root = $root->right;
+
+                continue;
+            }
+
+            $root = array_pop($parent);
+
+            if (null !== $root->right) {
+                $parent[] = $root;
+            }
         }
 
-        if (null !== $root->left) {
-            self::get($root->left);
-        }
-
-        if (null !== $root->right) {
-            self::get($root->right);
-        }
-
-        self::$out[] = &$root->val;
+        return $out;
     }
 }
 
