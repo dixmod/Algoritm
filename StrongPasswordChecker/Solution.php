@@ -12,10 +12,10 @@ class Solution {
     function strongPasswordChecker(string $password): int
     {
         $lenPassword = strlen($password);
-        $errorLen = $lenPassword - self::MIN_LEN - 1;
+        $errorLen = self::MIN_LEN - $lenPassword;
 
-        if ($errorLen <= 0) {
-            return -++$errorLen;
+        if ($errorLen > 0) {
+            return $errorLen;
         }
 
         $errorLen = self::MAX_LEN - $lenPassword - 1;
@@ -27,8 +27,21 @@ class Solution {
         $dig = [];
         $uCh = [];
         $lCh = [];
+        $prevChar = null;
+        $repeats = 1;
 
         foreach (str_split($password) as $char) {
+            if($prevChar === $char){
+                if ($repeats < 2) {
+                    ++$repeats;
+                }else{
+                    return 1;
+                }
+            } else {
+                $repeats = 1;
+                $prevChar = $char;
+            }
+
             if (true === is_numeric($char)) {
                 $dig[$char] = ++$dig[$char] ?? 1;
 
@@ -44,7 +57,7 @@ class Solution {
             $lCh[$char] = ++$lCh[$char] ?? 1;
         }
 
-        return $lenPassword - sizeof($dig) - sizeof($uCh) - sizeof($lCh);
+        return $lenPassword - array_sum($dig) - array_sum($uCh) - array_sum($lCh);
     }
 }
 
@@ -52,3 +65,4 @@ class Solution {
 //print_r( (new Solution)->strongPasswordChecker('a') ); // 5
 //print_r( (new Solution)->strongPasswordChecker("aA1") ); // 3
 //print_r( (new Solution)->strongPasswordChecker("1337C0d3") ); // 0
+print_r( (new Solution)->strongPasswordChecker("aaa123") ); // 1
