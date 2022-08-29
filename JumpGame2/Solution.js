@@ -8,8 +8,8 @@ var jump = function (nums) {
     let countJumps = 0;
     let countPoints = nums.length - 1;
 
-    for (indexPoint = 0; currentIndexPoint < countPoints; ++indexPoint) {
-        nextPointAfterJump = indexPoint + nums[indexPoint];
+    for (let indexPoint = 0; currentIndexPoint < countPoints; ++indexPoint) {
+        let nextPointAfterJump = indexPoint + nums[indexPoint];
 
         if (maxJump < nextPointAfterJump) {
             maxJump = nextPointAfterJump;
