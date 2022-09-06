@@ -6,12 +6,12 @@ namespace App\PreorderTraversal;
 
 class Solution
 {
-    static $out = [];
+    public static $out = [];
 
     /**
      * @return Integer[]
      */
-    function preorderTraversal(?TreeNode $root): array
+    public function preorderTraversal(?TreeNode $root): array
     {
         $out = [];
         $parent = [];
@@ -22,7 +22,7 @@ class Solution
             if (null !== $root->left) {
                 $parent[] = $root;
                 $root = $root->left;
-            } else  if (null !== $root->right) {
+            } elseif (null !== $root->right) {
                 $parent[] = $root;
                 $root = $root->right;
             } else {
@@ -37,4 +37,3 @@ class Solution
         return $out;
     }
 }
-

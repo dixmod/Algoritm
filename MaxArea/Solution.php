@@ -10,7 +10,7 @@ class Solution
      * @param Integer[] $heights
      * @return Integer
      */
-    function maxArea($heights)
+    public function maxArea($heights)
     {
         $maxArea = 0;
         $index1 = 0;

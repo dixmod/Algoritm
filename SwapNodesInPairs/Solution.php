@@ -6,12 +6,11 @@ namespace App\SwapNodesInPairs;
 
 class Solution
 {
-
     /**
      * @param ListNode $head
      * @return ListNode
      */
-    function swapPairs($head)
+    public function swapPairs($head)
     {
         if (null === $head->next) {
             return $head;

@@ -10,7 +10,7 @@ class Solution
      * @param String $s
      * @return Integer
      */
-    function lengthOfLongestSubstring(string $s): int
+    public function lengthOfLongestSubstring(string $s): int
     {
         $maxLength = 0;
         $length = 0;

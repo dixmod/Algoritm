@@ -17,7 +17,7 @@ class Solution
      */
     private array $stack = [];
 
-    function isValid(string $s): bool
+    public function isValid(string $s): bool
     {
         foreach (str_split($s) as $c) {
             if (true === $this->isOpen($c)) {
@@ -47,4 +47,3 @@ class Solution
         return $c === array_pop($this->stack);
     }
 }
-

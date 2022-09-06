@@ -14,4 +14,4 @@ $start = microtime(true);
 var_dump(
     (new Solution())->isPalindrome(ListNodeFactory::create([1, 2, 3, 4, 5,]))
 ); // 2
-echo (microtime(true) - $start) * 10000;
+echo(microtime(true) - $start) * 10000;

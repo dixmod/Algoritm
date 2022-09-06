@@ -14,7 +14,7 @@ class Factory
         self::$arr = $arr;
         self::$len = sizeof($arr);
 
-        if(0 === self::$len){
+        if (0 === self::$len) {
             return null;
         }
 
@@ -22,7 +22,7 @@ class Factory
 
         if (null !== self::$arr[1]) {
             $treeNode->setLeft(self::generate(1));
-         }
+        }
 
         if (null !== self::$arr[2]) {
             $treeNode->setRight(self::generate(2));

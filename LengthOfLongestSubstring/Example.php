@@ -11,6 +11,3 @@ require 'Solution.php';
 //print_r((new Solution())->lengthOfLongestSubstring(' ')); // 1
 //print_r((new Solution())->lengthOfLongestSubstring('aab')); // 2
 print_r((new Solution())->lengthOfLongestSubstring('dvdf')); // 3
-
-
-

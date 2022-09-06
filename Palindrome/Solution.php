@@ -25,4 +25,3 @@ class Solution
             && $node->val === $this->nodes[self::$counts - $depth];
     }
 }
-

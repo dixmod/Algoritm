@@ -10,7 +10,7 @@ class Solution
      * @param int[][] $accounts
      * @return int
      */
-    function maximumWealth(array $accounts): int
+    public function maximumWealth(array $accounts): int
     {
         $max = 0;
 

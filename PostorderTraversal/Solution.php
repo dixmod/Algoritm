@@ -6,12 +6,12 @@ namespace App\PostorderTraversal;
 
 class Solution
 {
-    static $out = [];
+    public static $out = [];
 
     /**
      * @return Integer[]
      */
-    function postorderTraversal(?TreeNode $root): array
+    public function postorderTraversal(?TreeNode $root): array
     {
         $out = [];
         $parent = [];
@@ -43,4 +43,3 @@ class Solution
         return $out;
     }
 }
-

@@ -11,7 +11,7 @@ class Solution
     /**
      * @return string[]
      */
-    function generateParenthesis(int $n): array
+    public function generateParenthesis(int $n): array
     {
         static::$result = [];
 
@@ -20,7 +20,7 @@ class Solution
         return static::$result;
     }
 
-    static private function generate(int $n, string $current, int $open, int $close): void
+    private static function generate(int $n, string $current, int $open, int $close): void
     {
         if ($open < $n) {
             self::generate($n, $current . '(', $open + 1, $close);
@@ -35,4 +35,3 @@ class Solution
         }
     }
 }
-
