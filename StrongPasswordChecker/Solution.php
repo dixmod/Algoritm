@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\StrongPasswordChecker;
 
-class Solution {
+class Solution
+{
 
     const MAX_LEN = 20;
     const MIN_LEN = 6;
@@ -12,30 +13,27 @@ class Solution {
     function strongPasswordChecker(string $password): int
     {
         $lenPassword = strlen($password);
-        $errorLen = self::MIN_LEN - $lenPassword;
+        $error = self::MIN_LEN - $lenPassword;
 
-        if ($errorLen > 0) {
-            return $errorLen;
-        }
-
-        $errorLen = self::MAX_LEN - $lenPassword - 1;
-
-        if ($errorLen <= 0) {
-            return -$errorLen;
+        if ($error > 0) {
+            return $error;
         }
 
         $dig = [];
         $uCh = [];
         $lCh = [];
+
         $prevChar = null;
-        $repeats = 1;
+        $repeats = 0;
+        $error = 0;
 
         foreach (str_split($password) as $char) {
             if($prevChar === $char){
                 if ($repeats < 2) {
                     ++$repeats;
                 }else{
-                    return 1;
+                    $repeats = 0;
+                    $error++;
                 }
             } else {
                 $repeats = 1;
@@ -43,26 +41,47 @@ class Solution {
             }
 
             if (true === is_numeric($char)) {
-                $dig[$char] = ++$dig[$char] ?? 1;
+                $dig[$char] = array_key_exists($char, $dig) ? $dig[$char] + 1 : 1;
 
                 continue;
+            }
+
+            if ($char === strtolower($char)) {
+                $lCh[$char] = array_key_exists($char, $lCh) ? $lCh[$char] + 1 : 1;
             }
 
             if ($char === strtoupper($char)) {
-                $uCh[$char] = ++$uCh[$char] ?? 1;
-
-                continue;
+                $uCh[$char] = array_key_exists($char, $uCh) ? $uCh[$char] + 1 : 1;
             }
-
-            $lCh[$char] = ++$lCh[$char] ?? 1;
         }
 
-        return $lenPassword - array_sum($dig) - array_sum($uCh) - array_sum($lCh);
+//        if (0 !== $error) {
+//            return $error;
+//        }
+
+        if(0 === sizeof($dig) || 0 === sizeof($uCh) || 0 === sizeof($lCh)){
+            return $error-1;
+        }
+
+        if(0 !== $error){
+            return $error;
+        }
+
+        $errorL = $lenPassword - self::MAX_LEN;
+
+        if ($errorL > 0) {
+             $error += $errorL;
+        }
+
+        return $error;
     }
 }
 
-
+print_r( (new Solution)->strongPasswordChecker('aabbaa') ); // 5
 //print_r( (new Solution)->strongPasswordChecker('a') ); // 5
 //print_r( (new Solution)->strongPasswordChecker("aA1") ); // 3
 //print_r( (new Solution)->strongPasswordChecker("1337C0d3") ); // 0
-print_r( (new Solution)->strongPasswordChecker("aaa123") ); // 1
+//print_r((new Solution)->strongPasswordChecker("aaa123")); // 1
+//print_r((new Solution)->strongPasswordChecker("aaa111")); // 1
+//print_r((new Solution)->strongPasswordChecker("1111111111")); // 3
+//print_r((new Solution)->strongPasswordChecker("bbaaaaaaaaaaaaaaacccccc")); // 8

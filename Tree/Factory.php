@@ -17,7 +17,7 @@ class Factory
         return (new TreeNode(self::$arr[0]))    // первый укоренен
                 ->setLeft(self::generate(1))     // В соответствии с индикатом массива, постройте двоичное дерево
                 ->setRight(self::generate(2))
-            ;                           // возвращаемый корневой узел
+        ;                           // возвращаемый корневой узел
     }
 
     private static function generate(int $index): TreeNode

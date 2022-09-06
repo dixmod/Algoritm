@@ -6,12 +6,11 @@ namespace App\JumpGame2;
 
 class Solution
 {
-
     /**
      * @param Integer[] $nums
      * @return Integer
      */
-    function jump(array $nums): int
+    public function jump(array $nums): int
     {
         $currentIndexPoint = 0;
         $maxJump = 0;

@@ -8,7 +8,6 @@ require_once 'ListNode.php';
 use App\ReverseBetween\ListNodeFactory;
 use App\ReverseBetween\Solution;
 
-
 require 'Solution.php';
 
 

@@ -11,7 +11,7 @@ class Solution1
     /**
      * @return Integer[]
      */
-    function preorderTraversal(?TreeNode $root): array
+    public function preorderTraversal(?TreeNode $root): array
     {
         self::$out = [];
 
@@ -22,7 +22,7 @@ class Solution1
 
     public static function get(?TreeNode $root): void
     {
-        if(null === $root){
+        if (null === $root) {
             return ;
         }
 
@@ -37,4 +37,3 @@ class Solution1
         }
     }
 }
-

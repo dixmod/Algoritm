@@ -9,7 +9,7 @@ class Solution
     /**
      * @param int[] $nums
      */
-    function isMonotonic(array $nums): bool
+    public function isMonotonic(array $nums): bool
     {
         $dinamicOld = null;
 
@@ -32,4 +32,3 @@ class Solution
         return true;
     }
 }
-
