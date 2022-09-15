@@ -37,13 +37,15 @@ class LRUCache
             ++$this->countPuts;
         }
 
-        $this->cache[$key] = $value;
         $this->upKey($key);
+
+        $this->cache[$key] = $value;
     }
 
     private function upKey(int $key): void
     {
         $this->queue = array_diff($this->queue, [$key]);
+
         $this->queue[] = $key;
     }
 
