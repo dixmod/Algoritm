@@ -9,7 +9,7 @@ class LRUCache
     private int $capacity;
     private array $cache = [];
     private array $queue = [];
-    private int $sizeCache = 0;
+    private int $countPuts = 0;
 
     function __construct(int $capacity)
     {
@@ -30,13 +30,14 @@ class LRUCache
     function put(int $key, int $value): void
     {
         if (false === array_key_exists($key, $this->cache)) {
-            if($this->sizeCache >= $this->capacity){
+            if($this->countPuts >= $this->capacity){
                 $this->delOld();
             }
-            ++$this->sizeCache;
-        }
-        $this->cache[$key] = $value;
 
+            ++$this->countPuts;
+        }
+
+        $this->cache[$key] = $value;
         $this->upKey($key);
     }
 
@@ -49,7 +50,6 @@ class LRUCache
     private function delOld(): void
     {
         unset($this->cache[array_shift($this->queue)]);
-        --$this->sizeCache;
     }
 }
 
