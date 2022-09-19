@@ -4,11 +4,60 @@ declare(strict_types=1);
 
 namespace App\LRUCache;
 
+
+class Node
+{
+    private int $data;
+    private int $key;
+    private ?Node $next;
+    private ?Node $prev;
+
+    public function __construct(int $data, int $key)
+    {
+        $this->data = $data;
+        $this->key = $key;
+    }
+
+    public function getNext(): ?Node
+    {
+        return $this->next;
+    }
+
+    public function setNext(?Node $next): self
+    {
+        $this->next = $next;
+
+        return $this;
+    }
+
+    public function getPrev(): ?Node
+    {
+        return $this->prev;
+    }
+
+    public function setPrev(?Node $prev): self
+    {
+        $this->prev = $prev;
+
+        return $this;
+    }
+
+    public function getData(): int
+    {
+        return $this->data;
+    }
+}
+
 class LRUCache
 {
     private int $capacity;
+
+    /** @var Node[]  */
     private array $cache = [];
-    private array $queue = [];
+
+    /** @var Node  */
+    private $head = null;
+
     private int $countPuts = 0;
 
     function __construct(int $capacity)
@@ -24,7 +73,7 @@ class LRUCache
 
         $this->upKey($key);
 
-        return $this->cache[$key];
+        return $this->cache[$key]->getData();
     }
 
     function put(int $key, int $value): void
@@ -39,21 +88,25 @@ class LRUCache
 
         $this->upKey($key);
 
-        $this->cache[$key] = $value;
+        $this->cache[$key] = new Node($value, $key);
     }
 
     private function upKey(int $key): void
     {
-        $this->queue = array_diff($this->queue, [$key]);
-
-        $this->queue[] = $key;
+//        $this->queue = array_diff($this->queue, [$key]);
+//
+//        $this->queue[] = $key;
     }
 
     private function delOld(): void
     {
-        unset($this->cache[array_shift($this->queue)]);
+
+        //unset($this->cache[array_shift($this->queue)]);
     }
 }
+
+
+
 
 /*$obj = new LRUCache(2);
 $obj->put(2, 1);print_r($obj);
