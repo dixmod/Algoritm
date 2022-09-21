@@ -4,15 +4,17 @@ declare(strict_types=1);
 
 namespace App\LRUCache;
 
+use Exception;
 
 class Node
 {
-    private int $data;
-    private int $key;
+    private ?int $data;
+    private ?int $key;
+
     private ?Node $next;
     private ?Node $prev;
 
-    public function __construct(int $data, int $key)
+    public function __construct(?int $key = null, ?int $data = null)
     {
         $this->data = $data;
         $this->key = $key;
@@ -46,184 +48,155 @@ class Node
     {
         return $this->data;
     }
+
+    public function setData(int $data): self
+    {
+        $this->data = $data;
+
+        return $this;
+    }
+
+    public function getKey(): int
+    {
+        return $this->key;
+    }
 }
 
-class LRUCache
+class Queue
+{
+    private Node $head;
+    private Node $tail;
+
+    public function __construct()
+    {
+        $this->head = new Node();
+        $this->tail = new Node();
+
+        $this->head->setNext($this->tail);
+        $this->tail->setPrev($this->head);
+    }
+
+    public function remove(Node $node): void
+    {
+        $node->getPrev()->setNext($node->getNext());
+        $node->getNext()->setPrev($node->getPrev());
+    }
+
+    public function attach(Node $node): void
+    {
+        $node->setPrev($this->head);
+        $node->setNext($this->head->getNext());
+
+        $node->getNext()->setPrev($node);
+        $node->getPrev()->setNext($node);
+    }
+
+    public function upPriority(Node $node): void
+    {
+        $this->remove($node);
+        $this->attach($node);
+    }
+
+    public function removeOld(): int
+    {
+        $nodeToRemove = $this->tail->getPrev();
+        $this->remove($nodeToRemove);
+
+        return $nodeToRemove->getKey();
+    }
+}
+
+class Cache
 {
     private int $capacity;
 
-    /** @var Node[]  */
-    private array $cache = [];
+    /** @var array<int, Node> */
+    private array $hashMap = [];
 
-    /** @var Node  */
-    private $head = null;
-
-    private int $countPuts = 0;
-
-    function __construct(int $capacity)
+    public function __construct(int $capacity)
     {
         $this->capacity = $capacity;
     }
 
-    function get(int $key): int
+    public function isFull(): bool
     {
-        if (false === array_key_exists($key, $this->cache)) {
-            return -1;
+        return sizeof($this->hashMap) > $this->capacity;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function get(int $ket): Node
+    {
+        if (false === isset($this->hashMap[$ket])) {
+            throw new Exception();
         }
 
-        $this->upKey($key);
-
-        return $this->cache[$key]->getData();
+        return $this->hashMap[$ket];
     }
 
-    function put(int $key, int $value): void
+    public function remove(int $key): void
     {
-        if (false === array_key_exists($key, $this->cache)) {
-            if($this->countPuts >= $this->capacity){
-                $this->delOld();
-            }
-
-            ++$this->countPuts;
-        }
-
-        $this->upKey($key);
-
-        $this->cache[$key] = new Node($value, $key);
+        unset($this->hashMap[$key]);
     }
 
-    private function upKey(int $key): void
+    public function add(int $key, Node $node): void
     {
-//        $this->queue = array_diff($this->queue, [$key]);
-//
-//        $this->queue[] = $key;
-    }
-
-    private function delOld(): void
-    {
-
-        //unset($this->cache[array_shift($this->queue)]);
+        $this->hashMap[$key] = $node;
     }
 }
 
+class LRUCache
+{
+    private Cache $cache;
+    private Queue $queue;
 
+    public function __construct(int $capacity)
+    {
+        $this->queue = new Queue();
+        $this->cache = new Cache($capacity);
+    }
 
+    public function get(int $key): int
+    {
+        try {
+            $node = $this->cache->get($key);
+        } catch (Exception $exception) {
+            return -1;
+        }
 
-/*$obj = new LRUCache(2);
-$obj->put(2, 1);print_r($obj);
-$obj->put(1, 1);print_r($obj);
-$obj->put(2, 3);print_r($obj);
-$obj->put(4, 1);print_r($obj);
-$obj->get(1); print_r($obj);
-$obj->get(2); print_r($obj);*/
+        $this->queue->upPriority($node);
 
+        return $node->getData();
+    }
 
-$obj = new LRUCache(10);
-$obj->put(10, 13); print_r($obj);
-$obj->put(3, 17); print_r($obj);
-$obj->put(6, 11); print_r($obj);
-$obj->put(10, 5); print_r($obj);
-$obj->put(9, 10); print_r($obj);
-$obj->get(13); print_r($obj);
-$obj->put(2, 19); print_r($obj);
-$obj->get(2); print_r($obj);
-$obj->get(3); print_r($obj);
-$obj->put(5, 25); print_r($obj);
-$obj->get(8); print_r($obj);
-$obj->put(9, 22); print_r($obj);
-$obj->put(5, 5); print_r($obj);
-$obj->put(1, 30); print_r($obj); echo '---';///
-$obj->get(11); print_r($obj);
-$obj->put(9, 12); print_r($obj);
-$obj->get(7); print_r($obj);
-$obj->get(5); print_r($obj);
-$obj->get(8); print_r($obj);
-$obj->get(9); print_r($obj);
-$obj->put(4, 30); print_r($obj);
-$obj->put(9, 3); print_r($obj);
-$obj->get(9); print_r($obj);
-$obj->get(10); print_r($obj);
-$obj->get(10); print_r($obj);
-$obj->put(6, 14); print_r($obj);
-$obj->put(3, 1); print_r($obj);
-$obj->get(3); print_r($obj);
-$obj->put(10, 11); print_r($obj);
-$obj->get(8); print_r($obj);
-$obj->put(2, 14); print_r($obj);
-print_r($obj->get(1)); //print_r($obj); // 30
-//print_r($obj->get(5)); print_r($obj);
-//$obj->get(4); print_r($obj);
-//$obj->put(11, 4); print_r($obj);
-//$obj->put(12, 24); print_r($obj);
-//$obj->put(5, 18); print_r($obj);
-//$obj->get(13); print_r($obj);
-//$obj->put(7, 23); print_r($obj);
-//$obj->get(8); print_r($obj);
-//$obj->get(12); print_r($obj);
-//$obj->put(3, 27); print_r($obj);
-//$obj->put(2, 12); print_r($obj);
-//$obj->get(5); print_r($obj);
-//$obj->put(2, 9); print_r($obj);
-//$obj->put(13, 4); print_r($obj);
-//$obj->put(8, 18); print_r($obj);
-//$obj->put(1, 7); print_r($obj);
-//$obj->get(6); print_r($obj);
-//$obj->put(9, 29); print_r($obj);
-//$obj->put(8, 21); print_r($obj);
-//$obj->get(5); print_r($obj);
-//$obj->put(6, 30); print_r($obj);
-//$obj->put(1, 12); print_r($obj);
-//$obj->get(10); print_r($obj);
-//$obj->put(4, 15); print_r($obj);
-//$obj->put(7, 22); print_r($obj);
-//$obj->put(11, 26); print_r($obj);
-//$obj->put(8, 17); print_r($obj);
-//$obj->put(9, 29); print_r($obj);
-//$obj->get(5); print_r($obj);
-//$obj->put(3, 4); print_r($obj);
-//$obj->put(11, 30); print_r($obj);
-//$obj->get(12); print_r($obj);
-//$obj->put(4, 29); print_r($obj);
-//$obj->get(3); print_r($obj);
-//$obj->get(9); print_r($obj);
-//$obj->get(6); print_r($obj);
-//$obj->put(3, 4); print_r($obj);
-//$obj->get(1); print_r($obj);
-//$obj->get(10); print_r($obj);
-//$obj->put(3, 29); print_r($obj);
-//$obj->put(10, 28); print_r($obj);
-//$obj->put(1, 20); print_r($obj);
-//$obj->put(11, 13); print_r($obj);
-//$obj->get(3); print_r($obj);
-//$obj->put(3, 12); print_r($obj);
-//$obj->put(3, 8); print_r($obj);
-//$obj->put(10, 9); print_r($obj);
-//$obj->put(3, 26); print_r($obj);
-//$obj->get(8); print_r($obj);
-//$obj->get(7); print_r($obj);
-//$obj->get(5); print_r($obj);
-//$obj->put(13, 17); print_r($obj);
-//$obj->put(2, 27); print_r($obj);
-//$obj->put(11, 15); print_r($obj);
-//$obj->get(12); print_r($obj);
-//$obj->put(9, 19); print_r($obj);
-//$obj->put(2, 15); print_r($obj);
-//$obj->put(3, 16); print_r($obj);
-//$obj->get(1); print_r($obj);
-//$obj->put(12, 17); print_r($obj);
-//$obj->put(9, 1); print_r($obj);
-//$obj->put(6, 19); print_r($obj);
-//$obj->get(4); print_r($obj);
-//$obj->get(5); print_r($obj);
-//$obj->get(5); print_r($obj);
-//$obj->put(8, 1); print_r($obj);
-//$obj->put(11, 7); print_r($obj);
-//$obj->put(5, 2); print_r($obj);
-//$obj->put(9, 28); print_r($obj);
-//$obj->get(1); print_r($obj);
-//$obj->put(2, 2); print_r($obj);
-//$obj->put(7, 4); print_r($obj);
-//$obj->put(4, 22); print_r($obj);
-//$obj->put(7, 24); print_r($obj);
-//$obj->put(9, 26); print_r($obj);
-//$obj->put(13, 28); print_r($obj);
-//$obj->put(11, 26); print_r($obj);
+    public function put(int $key, int $value): void
+    {
+        try {
+            $node = $this->cache->get($key);
+
+            $this->update($node, $value);
+        } catch (Exception $exception) {
+            $this->add($key, $value);
+        }
+    }
+
+    private function add(int $key, int $value): void
+    {
+        $node = new Node($key, $value);
+        $this->cache->add($key, $node);
+        $this->queue->attach($node);
+
+        if (true === $this->cache->isFull()) {
+            $this->cache->remove(
+                $this->queue->removeOld()
+            );
+        }
+    }
+
+    private function update(Node $node, int $value): void
+    {
+        $node->setData($value);
+        $this->queue->upPriority($node);
+    }
+}
