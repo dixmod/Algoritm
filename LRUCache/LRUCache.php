@@ -129,7 +129,7 @@ class Cache
     public function get(int $ket): Node
     {
         if (false === isset($this->hashMap[$ket])) {
-            throw new Exception();
+            throw new NotFountException();
         }
 
         return $this->hashMap[$ket];
@@ -144,6 +144,10 @@ class Cache
     {
         $this->hashMap[$key] = $node;
     }
+}
+
+class NotFountException extends Exception
+{
 }
 
 class LRUCache
@@ -161,7 +165,7 @@ class LRUCache
     {
         try {
             $node = $this->cache->get($key);
-        } catch (Exception $exception) {
+        } catch (NotFountException $exception) {
             return -1;
         }
 
@@ -176,7 +180,7 @@ class LRUCache
             $node = $this->cache->get($key);
 
             $this->update($node, $value);
-        } catch (Exception $exception) {
+        } catch (NotFountException $exception) {
             $this->add($key, $value);
         }
     }
