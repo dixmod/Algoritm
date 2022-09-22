@@ -124,7 +124,7 @@ class Cache
     }
 
     /**
-     * @throws Exception
+     * @throws NotFountException
      */
     public function get(int $ket): Node
     {
@@ -142,7 +142,7 @@ class Cache
 
     public function add(int $key, Node $node): void
     {
-        $this->hashMap[$key] = $node;
+        $this->hashMap[$key] = &$node;
     }
 }
 
@@ -152,6 +152,7 @@ class NotFountException extends Exception
 
 class LRUCache
 {
+    private const DEFAULT_VALUE = -1;
     private Cache $cache;
     private Queue $queue;
 
@@ -166,7 +167,7 @@ class LRUCache
         try {
             $node = $this->cache->get($key);
         } catch (NotFountException $exception) {
-            return -1;
+            return self::DEFAULT_VALUE;
         }
 
         $this->queue->upPriority($node);
