@@ -9,23 +9,23 @@ namespace App\FindTheWinner;
  */
 class Solution
 {
-    function findTheWinner(int $count, int $k): int
+    function findTheWinner(int $count, int $step): int
     {
-        $i = 0;
+        $indexFriend = 0;
         $delta = 0;
 
-        while ($delta+1 < $count) {
-            $i += $k + $delta;
+        while ($delta <= $count) {
+            $indexFriend += $step + $delta;
 
-            if($i >= $count){
-                $i -= $count;
-                ++$delta;
+            if($indexFriend >= $count){
+                $indexFriend -= $count;
+                $delta += $count;
             }
 
-            echo $i . ' ' . $k . ' '. $delta . ' '. PHP_EOL;
+            echo $indexFriend . ' '. $delta . ' '. PHP_EOL;
         }
 
-        return $i;
+        return $indexFriend;
     }
 }
 
