@@ -1,5 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
+use App\ThreeSum;
+
 class Solution
 {
     /**
@@ -32,7 +36,7 @@ class Solution
                 $case = [$nums[$i], $nums[$j], $nums[$k]];
                 $hash = implode('', $case);
 
-                if(!isset($res[$hash])){
+                if (!isset($res[$hash])) {
                     $res[$hash] = $case;
                 }
 
@@ -44,7 +48,3 @@ class Solution
         return $res;
     }
 }
-
-print_r((new Solution)->threeSum([-1, 0, 1, 2, -1, -4]));
-//print_r((new Solution)->threeSum([0,0,0]));
-//print_r((new Solution)->threeSum([0,1,1]));
