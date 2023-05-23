@@ -9,17 +9,35 @@ class Solution
     public function threeSum(array $nums): array
     {
         $res = [];
+        sort($nums);
         $countNum = count($nums);
 
         for ($i = 0; $i < $countNum; $i++) {
-            for ($j = $i+1; $j < $countNum; $j++) {
-                for ($k = $j+1; $k < $countNum; $k++) {
-                    $sum = $nums[$i] + $nums[$j] + $nums[$k];
+            $k = $countNum - 1;
+            $j = $i + 1;
 
-                    if (0 === $sum) {
-                        $res[] = [$nums[$i], $nums[$j], $nums[$k]];
-                    }
+            while ($j < $k) {
+                $sum = $nums[$i] + $nums[$j] + $nums[$k];
+
+                if ($sum > 0) {
+                    $k -= 1;
+                    continue;
                 }
+
+                if ($sum < 0) {
+                    $j += 1;
+                    continue;
+                }
+
+                $case = [$nums[$i], $nums[$j], $nums[$k]];
+                $hash = implode('', $case);
+
+                if(!isset($res[$hash])){
+                    $res[$hash] = $case;
+                }
+
+                $j += 1;
+                $k -= 1;
             }
         }
 
