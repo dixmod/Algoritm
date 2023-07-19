@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace App\MaximumSubarray;
@@ -23,7 +24,7 @@ class Solution
     {
         $sum = array_sum(array_slice($this->array, $start, $finish));
 
-        if($this->maxSumm < $sum){
+        if($this->maxSumm < $sum) {
             $this->maxSumm = $sum;
         }
 
