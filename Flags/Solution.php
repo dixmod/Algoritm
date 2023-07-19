@@ -68,12 +68,12 @@ class Solution
                 }
 
 
-//                if (
-//                    $length['prev'] >= $countFlags &&
-//                    $length['next'] >= $countFlags
-//                ) {
-//                    $picsForFlags[$indexPic] = true;
-//                }
+                //                if (
+                //                    $length['prev'] >= $countFlags &&
+                //                    $length['next'] >= $countFlags
+                //                ) {
+                //                    $picsForFlags[$indexPic] = true;
+                //                }
             }
 
             if (count($picsForFlags) === $countFlags) {

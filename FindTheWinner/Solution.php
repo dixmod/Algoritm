@@ -9,7 +9,7 @@ namespace App\FindTheWinner;
  */
 class Solution
 {
-    function findTheWinner(int $countFriends, int $step): int
+    public function findTheWinner(int $countFriends, int $step): int
     {
         $indexFriend = 0;
         $delta = 0;
