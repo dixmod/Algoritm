@@ -22,9 +22,14 @@ class Solution
         $capacity = 0;
         $this->heights = $heights;
         $this->countHeights = count($heights) - 1;
+        $picLeft = 0;
+        $picRight = $this->countHeights;
 
         for ($levelWater = 0; $levelWater < max($heights); $levelWater++) {
-            for ($index = $this->getPicLeft($levelWater) + 1; $index <= $this->getPicRight($levelWater) - 1; $index++) {
+            $picLeft = $this->getPicLeft($levelWater, $picLeft);
+            $picRight = $this->getPicRight($levelWater, $picRight);
+
+            for ($index = $picLeft + 1; $index <= $picRight - 1; $index++) {
                 if ($heights[$index] - $levelWater <= 0) {
                     ++$capacity;
                 }
@@ -34,9 +39,9 @@ class Solution
         return $capacity;
     }
 
-    private function getPicRight(int $levelWater): int
+    private function getPicRight(int $levelWater, int $start): int
     {
-        for ($index = $this->countHeights; $index >= 0; $index--) {
+        for ($index = $start; $index >= 0; $index--) {
             if ($this->heights[$index] - $levelWater > 0) {
                 return $index;
             }
@@ -45,9 +50,9 @@ class Solution
         return $this->countHeights;
     }
 
-    private function getPicLeft(int $levelWater): int
+    private function getPicLeft(int $levelWater, int $start): int
     {
-        for ($index = 0; $index <= $this->countHeights; $index++) {
+        for ($index = $start; $index <= $this->countHeights; $index++) {
             if ($this->heights[$index] - $levelWater > 0) {
                 return $index;
             }
@@ -57,5 +62,5 @@ class Solution
     }
 }
 
-//echo (new Solution())->trap([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]);
-echo (new Solution())->trap([4, 2, 0, 3, 2, 5]);
+echo (new Solution())->trap([0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]);
+//echo (new Solution())->trap([4, 2, 0, 3, 2, 5]);
